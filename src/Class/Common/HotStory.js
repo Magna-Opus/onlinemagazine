@@ -55,7 +55,7 @@ export default class ArticleDetail extends Component {
       ],
       visible: false,
       isImageModal: false,
-      images: []
+      images: [],
     };
   }
 
@@ -69,6 +69,9 @@ export default class ArticleDetail extends Component {
       console.log("Is connected?", state.isConnected);
     
     if(state.isConnected){
+      Get('wp-json/api/count-view/'+params.articleDetails,token).then((view)=>{
+        console.log(view)
+      });
     Get('wp-json/wp/v2/posts/'+params.articleDetails,token).then((mysinglearticles)=>{
       console.log("mysinglearticlesssss",mysinglearticles)
     this.setState({details:mysinglearticles,isPendingAllArticles:false})
@@ -266,6 +269,8 @@ _renderItem2 ({item, index}) {
   );
 }
 
+
+
   render() {
     const { navigation, translatedData, isPendingTranslation } = this.props;
     const {
@@ -282,7 +287,7 @@ _renderItem2 ({item, index}) {
     return (
       
         <SafeAreaView>
-            {details && details.attachments.length > 0?
+            {details && details.featured_media?
             <View style={styles.innerContainer}>
               <View
                 activeOpacity={1}
@@ -309,7 +314,7 @@ _renderItem2 ({item, index}) {
                   icon={Images.backIcon}
                 />
               </TouchableOpacity>
-              
+              {details.attachments.length>0?
              <Carousel
                 ref={(c) => { this._carousel = c; }}
                 data={details.attachments}
@@ -321,7 +326,20 @@ _renderItem2 ({item, index}) {
                 loop={true}
                 layout='default'
                 autoplayInterval={3000}
-            /></View>: 
+            />:<ImageBackground
+            style={styles.coverImage}
+            resizeMode="cover"
+            source={
+              images.length > 0 ? { uri: images[0].url } : Images.defaultImage
+            }
+        
+          >
+            <View style={{height: height*0.3,
+    backgroundColor: Colors.Opacity,
+    alignItems: 'center',
+    justifyContent:'flex-start'}}>
+                </View>
+                </ImageBackground>}</View>: 
           <ImageBackground
             style={styles.coverImage}
             resizeMode="cover"

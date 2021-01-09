@@ -103,6 +103,7 @@ export default class EditStory extends Component {
     
     if(state.isConnected){
     var attachment=[];
+    
     Get('wp-json/wp/v2/posts/'+params.storyDetails,token).then((mysinglearticles)=>{
         console.log("editmysinglearticles",mysinglearticles)
       this.setState({singlearticle:mysinglearticles,isPendingAllArticles:false})
@@ -122,9 +123,9 @@ export default class EditStory extends Component {
       
     })
       this.setState({
-        title: mysinglearticles.title.rendered,
-        content: mysinglearticles.content.rendered,
-        downloadlink:mysinglearticles.meta._downloadlink,
+        title: (mysinglearticles.title.rendered).trim(),
+        content: (mysinglearticles.content.rendered).trim(),
+        downloadlink:(mysinglearticles.meta._downloadlink).trim(),
         categoryId: mysinglearticles.categories,
         // selectedCategory:mysinglearticles.categories,
         selectedCategory:mysinglearticles.categories,
@@ -325,6 +326,7 @@ export default class EditStory extends Component {
     if (title.length < 1) {
       // alert("Please fill title field");
       displayErrorToast("Please fill title field")
+      
     } else if (content.length < 1) {
       // alert("Please fill content field");
       displayErrorToast("Please fill content field")
@@ -333,7 +335,7 @@ export default class EditStory extends Component {
       displayErrorToast("Please Select Category")
     } 
     else if(downloadlink=='')
-    {
+  {
       this.setState({isPendingAllArticles:true})
       let formData = new FormData();
       formData.append("post_title", title)
@@ -526,7 +528,7 @@ else
 
               <View style={styles.containerStyle}>
                 <TextInput
-                  style={styles.titleStyle}
+                  style={[styles.titleStyle,{width:'100%'}]}
                   underlineColorAndroid="transparent"
                   placeholder="Story Title"
                   multiline={true}

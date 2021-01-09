@@ -28,6 +28,7 @@ class Myarticle extends Component {
       console.log("Is connected?", state.isConnected);
     
     if(state.isConnected){
+      
     DeletePost(`wp-json/wp/v2/posts/${id}`,token).then((delarticles)=>{
       console.log("delarticles",delarticles)
       getArticles()

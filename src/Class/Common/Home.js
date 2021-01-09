@@ -13,6 +13,7 @@ import {Get} from '../../Service/Get.js'
 import AsyncStorage from '@react-native-community/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 import { StackActions, NavigationActions } from 'react-navigation';
+import {NavigationEvents} from 'react-navigation';
 
 import Carousel from 'react-native-snap-carousel';
 export default class Home extends Component {
@@ -88,6 +89,9 @@ export default class Home extends Component {
                     /> */}
                     <ScrollView contentContainerStyle={{ flexGrow: 1, }}
                 scrollEnabled>
+                    <NavigationEvents onDidFocus={()=>
+          this.getStory()
+          }/>
                     <View style={{ flex:1}}>
                         <Image source={bg3} style={{ height: hp('30%'), resizeMode: 'cover', width: '100%' }} />
                         <View style={{ position:'absolute',paddingHorizontal: 30, top:120,alignSelf:'center',zIndex:999}}>

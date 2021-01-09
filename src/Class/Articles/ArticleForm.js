@@ -35,6 +35,9 @@ export default class Articles extends Component {
       console.log("Is connected?", state.isConnected);
     
     if(state.isConnected){
+      Get('wp-json/api/count-view/'+item.ID,token).then((view)=>{
+        console.log(view)
+      });
     Get('wp-json/wp/v2/posts/'+item.ID,token).then((posts)=>{
     console.log("posts",posts)
     var pos=posts;

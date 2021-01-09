@@ -42,7 +42,6 @@ export default class ArticleDetail extends Component {
     this.state = {
       isAudio: false,
       details: null,
-      
       obj: {},
       popupadds:[],
       selectedLang: "en-US",
@@ -254,6 +253,8 @@ else
     );
   }
 
+  
+
 markFavourite=async()=>
 {
   var token=await AsyncStorage.getItem('token');
@@ -305,9 +306,8 @@ markFavourite=async()=>
       
         <SafeAreaView>
             
-         
-            {details && details.attachments.length > 0?
-            <View style={styles.innerContainer}>
+            {details && details.featured_media?
+              <View style={styles.innerContainer}>
               <View
                 activeOpacity={1}
                 style={{height:'100%',width:'100%',position:'absolute',justifyContent:'center',alignItems:'center',zIndex:9999 }}
@@ -333,7 +333,7 @@ markFavourite=async()=>
                   icon={Images.backIcon}
                 />
               </TouchableOpacity>
-              
+              {details.attachments.length>0?
              <Carousel
                 ref={(c) => { this._carousel = c; }}
                 data={details.attachments}
@@ -345,7 +345,20 @@ markFavourite=async()=>
                 loop={true}
                 layout='default'
                 autoplayInterval={3000}
-            /></View>: <ImageBackground
+            />:<ImageBackground
+            style={styles.coverImage}
+            resizeMode="cover"
+            source={
+              images.length > 0 ? { uri: images[0].url } : Images.defaultImage
+            }
+        
+          >
+            <View style={{height: height*0.3,
+    backgroundColor: Colors.Opacity,
+    alignItems: 'center',
+    justifyContent:'flex-start'}}>
+                </View>
+                </ImageBackground>}</View>: <ImageBackground
             style={styles.coverImage}
             resizeMode="cover"
             source={
