@@ -14,8 +14,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 import { StackActions, NavigationActions } from 'react-navigation';
 import {NavigationEvents} from 'react-navigation';
-
+import {Getwithouttoken} from '../../Service/Getwithouttoken.js'
 import Carousel from 'react-native-snap-carousel';
+
 export default class Home extends Component {
     constructor(props) {
         super(props);
@@ -26,6 +27,8 @@ export default class Home extends Component {
 
     async componentDidMount()
     {
+        var islogin=await AsyncStorage.getItem('islogin');
+        this.setState({islogin})
         NetInfo.fetch().then(state => {
             console.log("Connection type", state.type);
             console.log("Is connected?", state.isConnected);
@@ -43,8 +46,7 @@ export default class Home extends Component {
     }
 
     getStory=async()=>{
-        var token=await AsyncStorage.getItem('token')
-        Get('wp-json/api/hotstory',token).then((getstory)=>{
+        Getwithouttoken('wp-json/api/hotstory').then((getstory)=>{
             console.log("getstory",getstory.data)
             this.setState({story:getstory.data})
             this.getBanners()
@@ -52,8 +54,7 @@ export default class Home extends Component {
       }
 
       getBanners=async()=>{
-        var token=await AsyncStorage.getItem('token');
-        Get('wp-json/api/banners',token).then((getbanners)=>{
+        Getwithouttoken('wp-json/api/banners').then((getbanners)=>{
             console.log("getbanners",getbanners)
             this.setState({banners:getbanners.data.data,loading:false})
       })
@@ -140,13 +141,29 @@ export default class Home extends Component {
                     <View style={{height:450}}/>
                    
                     </ScrollView>
-                    <TouchableOpacity style={{paddingHorizontal: 10,  paddingVertical: 10,backgroundColor: '#855221', borderRadius: 20,position:'absolute',zIndex:99999,bottom:30,width:'90%',alignSelf:'center'}} onPress={()=>{const resetAction = StackActions.reset({
+                    <TouchableOpacity style={{paddingHorizontal: 10,  paddingVertical: 10,backgroundColor: '#855221', borderRadius: 20,position:'absolute',zIndex:99999,bottom:30,width:'90%',alignSelf:'center'}} onPress={()=>{
+                    
+                    if(this.state.islogin=='true')
+            {
+                const resetAction = StackActions.reset({
                     index: 0, // <-- currect active route from actions array
                     actions: [
                         NavigationActions.navigate({ routeName: "homeDrawer"}),
                     ],
                 });
-                this.props.navigation.dispatch(resetAction);}}>
+                this.props.navigation.dispatch(resetAction);
+            }
+            else
+            {
+                const resetAction = StackActions.reset({
+                    index: 0, // <-- currect active route from actions array
+                    actions: [
+                        NavigationActions.navigate({ routeName: "AuthNavigator"}),
+                    ],
+                });
+                this.props.navigation.dispatch(resetAction);
+            }
+        }}>
                                 <Text style={{ textAlign: 'center', color: '#fff' }}>Read/Write Stories</Text>
                             </TouchableOpacity>
                 </ImageBackground>

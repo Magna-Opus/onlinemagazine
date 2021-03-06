@@ -103,7 +103,7 @@ export default class Forgot extends Component {
                 <Ionicons
                   name="ios-arrow-back"
                   size={30}
-                  color={Color.White}
+                  color={Color.Red}
                 />
               </TouchableOpacity>
 

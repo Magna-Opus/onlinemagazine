@@ -57,6 +57,7 @@ const Categories = ({
             loading={false}
             color={Colors.Red}
             mode="contained"
+            style={{marginBottom:10}}
             onPress={()=>handleSubmit()}
           >
             <Text style={styles.convertButton}>Done</Text>

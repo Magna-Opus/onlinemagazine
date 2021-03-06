@@ -15,29 +15,16 @@ export default class Splash extends Component {
     async componentDidMount()
     {
 
-        var islogin=await AsyncStorage.getItem('islogin');
         setTimeout(
            ()=>{ 
-            if(islogin=='true')
-            {
-                const resetAction = StackActions.reset({
-                    index: 0, // <-- currect active route from actions array
-                    actions: [
-                        NavigationActions.navigate({ routeName: "Home"}),
-                    ],
-                });
-                this.props.navigation.dispatch(resetAction);
-            }
-            else
-            {
-                const resetAction = StackActions.reset({
-                    index: 0, // <-- currect active route from actions array
-                    actions: [
-                        NavigationActions.navigate({ routeName: "AuthNavigator"}),
-                    ],
-                });
-                this.props.navigation.dispatch(resetAction);
-            }
+            const resetAction = StackActions.reset({
+                index: 0, // <-- currect active route from actions array
+                actions: [
+                    NavigationActions.navigate({ routeName: "Home"}),
+                ],
+            });
+            this.props.navigation.dispatch(resetAction);
+            
         },2000)
     }
 

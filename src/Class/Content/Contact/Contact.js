@@ -17,6 +17,7 @@ import Fonts from "../../../Global/Fonts.js";
 import Color from "../../../Global/Color.js";
 import Images from "../../../Global/Images.js";
 import {MyHeader} from '../../../Global/Header.js'
+import Entypo from "react-native-vector-icons/Entypo";
 
 import { contactData } from "./ContactData";
 const { height, width } = Dimensions.get("window");
@@ -34,11 +35,12 @@ class ContactUs extends Component {
       // <SafeAreaView style={{ flex: 1 }} forceInset={{ top: "always" }}>
         <View style={styles.renderContainer}>
           <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
-            <Image
-              source={item.image}
-              style={{ height: 25, margin: 2, width: 25, margin: 2 }}
-              resizeMode="contain"
-            />
+          <Entypo
+                  name={item.image}
+                  size={30}
+                  color={Color.Red}
+                />
+
             <View style={{ marginLeft: 12 }}>
               <Subheading style={styles.headerTextStyle}>
                 {item.title}

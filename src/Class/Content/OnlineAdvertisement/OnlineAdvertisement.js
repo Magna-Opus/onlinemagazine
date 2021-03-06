@@ -28,9 +28,9 @@ export default class OnlineAdvertisement extends Component {
                 color: Colors.LightBlack,
               }}
             >
-              To publish your add on the application please write to us
+              To publish your ad on the application please write to us
               admin@onlinemagazine.org.uk or mystory@onlinemagazine.org.uk along
-              with the time duration you want to publish your add on our
+              with the time duration you want to publish your ad on our
               application. We will write back to you the availability of slot &
               price estimate. Happy Publishing !!
             </Text>

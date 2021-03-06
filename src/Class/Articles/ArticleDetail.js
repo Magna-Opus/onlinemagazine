@@ -11,6 +11,7 @@ import {
   NativeModules,
   StatusBar,
   Alert,
+  Dimensions,
   Platform
 } from "react-native";
 import styles from "./ArticleDetailStyle";
@@ -33,8 +34,9 @@ import Indicator from "../../Global/Loader.js";
 import AsyncStorage from '@react-native-community/async-storage';
 import ImageModal from "../../Modal/ImageForm";
 import PopUp from "../../Modal/PopUp";
-
+const height = Dimensions.get('window').height;
 import NetInfo from '@react-native-community/netinfo';
+import Octicons from 'react-native-vector-icons/Octicons'
 
 export default class ArticleDetail extends Component {
   constructor(props) {
@@ -61,6 +63,7 @@ export default class ArticleDetail extends Component {
   }
 
   componentDidMount = () => {
+    
     NetInfo.fetch().then(state => {
       console.log("Connection type", state.type);
       console.log("Is connected?", state.isConnected);
@@ -79,6 +82,7 @@ else
 
   getdata()
   {
+
     let { params } = this.props.navigation.state;
     console.log("params artilce detailvaa ---------- ", params);
     // let images = [];
@@ -92,6 +96,7 @@ else
       console.log("images ============ ", images);
       this.setState({
         details: params.articleDetails,
+        change_language:params.change_language,
         images: images
       });
     }
@@ -119,10 +124,11 @@ else
     formData.append("format", "text");
     console.log("formdata",formData)
     Translate(formData).then((translateresponse)=>{
-        console.log("Translate Response",translateresponse.data.translations)
+        console.log("Translate Response",translateresponse)
         let {details}=this.state
         details.content.rendered=translateresponse.data.translations[0].translatedText
         this.setState({details})
+        
     })
   }
 
@@ -191,12 +197,28 @@ else
           }
           else
           {
+            
             flag=0
             if (!isAudio) {
               Tts.getInitStatus().then(
                 response => {
-                    Tts.setDefaultLanguage(selectedLang);
-                    Tts.speak(text);
+                  
+                    Tts.setDefaultLanguage(selectedLang)
+                    if(Platform.OS=='android')
+                  {
+                    if(text.length>3999)
+                    {
+                      let tempstring=text.match(/.{1,3999}/g);
+                      for(var j=0;j<tempstring.length;j++)
+                      Tts.speak(tempstring[j])
+                    }
+                    else
+                    {
+                    Tts.speak(text)
+                    }
+                  }
+                  else
+                  Tts.speak(text)
                 },
                 err => {
                   if (err.code === "no_engine") {
@@ -472,7 +494,7 @@ markFavourite=async()=>
                   justifyContent: "flex-end"
                 }}
               >
-                <TouchableOpacity
+                {this.state.change_language?<TouchableOpacity
                   onPress={() => this.setState({ visible: true })}
                   style={styles.translateButtonStyle}
                 >
@@ -481,17 +503,21 @@ markFavourite=async()=>
                     resizeMode="contain"
                     source={Images.translateIcon}
                   />
-                </TouchableOpacity>
+                </TouchableOpacity>:null}
 
                 <TouchableOpacity
                   style={styles.audioButtonStyle}
                   onPress={() => this.onAudio()}
                 >
-                  <Image
-                    style={{ width: 25, height: 25 }}
-                    resizeMode="contain"
-                    source={Images.audioIcon}
-                  />
+                  {!isAudio?<Octicons
+                  name={'unmute'}
+                  size={30}
+                  color={'#fff'}
+                />:<Octicons
+                name={'mute'}
+                size={30}
+                color={'#fff'}
+              />}
                 </TouchableOpacity>
               </View>
             </Surface>

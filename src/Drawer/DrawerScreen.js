@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {ScrollView, Text, Linking,View,TouchableOpacity,Image,Alert,StyleSheet,FlatList,Platform,ImageBackground,Divider} from 'react-native';
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import AsyncStorage from '@react-native-community/async-storage';
-import Octicons from 'react-native-vector-icons/Octicons'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 const url='https://onlinemagazine.org.uk/wp-content/uploads/ultimatemember/';
 import {NavigationEvents} from 'react-navigation';
 import { DrawerActions } from 'react-navigation-drawer';
@@ -16,6 +16,13 @@ import Images from '../Global/Images.js'
 import {Get} from '../Service/Get.js'
 import NetInfo from '@react-native-community/netinfo';
 import Share from 'react-native-share';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Fontisto from "react-native-vector-icons/Fontisto";
+import Zocial from "react-native-vector-icons/Zocial";
+import Entypo from "react-native-vector-icons/Entypo";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 class DrawerScreen extends Component {
 navigateToScreen = (route) => () => {
@@ -197,11 +204,11 @@ return (
       style={styles.touchView}
       onPress={() =>{ navigation.navigate("Articles"),this.props.navigation.dispatch(DrawerActions.closeDrawer())}}
     >
-      <Image
-        style={styles.iconsStyle}
-        resizeMode="contain"
-        source={Images.allStories}
-      />
+      <FontAwesome
+                  name={'list-alt'}
+                  size={15}
+                  color={Colors.LightBlack}
+                />
 
       <View style={styles.lineStyle} />
       <Text style={styles.myProfile}>All Stories</Text>
@@ -211,11 +218,11 @@ return (
       style={styles.touchView}
       onPress={() => {navigation.navigate("MyArticles"),this.props.navigation.dispatch(DrawerActions.closeDrawer())}}
     >
-      <Image
-        style={styles.iconsStyle}
-        resizeMode="contain"
-        source={Images.myStories}
-      />
+      <FontAwesome5
+                  name={'list-alt'}
+                  size={15}
+                  color={Colors.LightBlack}
+                />
 
       <View style={styles.lineStyle} />
       <Text style={styles.myProfile}>My Stories</Text>
@@ -225,11 +232,11 @@ return (
       style={styles.touchView}
       onPress={() => {navigation.navigate("MyFavourites"),this.props.navigation.dispatch(DrawerActions.closeDrawer())}}
     >
-      <Image
-        style={styles.iconsStyle}
-        resizeMode="contain"
-        source={Images.myStories}
-      />
+      <Fontisto
+                  name={'nav-icon-list-a'}
+                  size={15}
+                  color={Colors.LightBlack}
+                />
 
       <View style={styles.lineStyle} />
       <Text style={styles.myProfile}>My Favourite Stories</Text>
@@ -242,11 +249,11 @@ return (
         Linking.openURL("mailto:admin@onlinemagazine.org.uk?subject=My Story")
       }
     >
-      <Image
-        style={styles.iconsStyle}
-        resizeMode="contain"
-        source={Images.contactUs}
-      />
+      <Zocial
+                  name={'email'}
+                  size={15}
+                  color={Colors.LightBlack}
+                />
 
       <View style={styles.lineStyle} />
       <Text style={styles.myProfile}>Send Email</Text>
@@ -256,11 +263,11 @@ return (
       style={styles.touchView}
       onPress={() => {navigation.navigate("MyProfile"),this.props.navigation.dispatch(DrawerActions.closeDrawer())}}
     >
-      <Image
-        style={styles.iconsStyle}
-        resizeMode="contain"
-        source={Images.myProfile}
-      />
+      <FontAwesome
+                  name={'user'}
+                  size={15}
+                  color={Colors.LightBlack}
+                />
 
       <View style={styles.lineStyle} />
       <Text style={styles.myProfile}>My Profile</Text>
@@ -270,11 +277,11 @@ return (
       style={styles.touchView}
       onPress={() => {navigation.navigate("OnlineAdvertisement"),this.props.navigation.dispatch(DrawerActions.closeDrawer())}}
     >
-      <Image
-        style={styles.iconsStyle}
-        resizeMode="contain"
-        source={Images.myProfile}
-      />
+      <FontAwesome5
+                  name={'adversal'}
+                  size={15}
+                  color={Colors.LightBlack}
+                />
 
       <View style={styles.lineStyle} />
       <Text style={styles.myProfile}>Online Advertisement</Text>
@@ -284,11 +291,11 @@ return (
       style={styles.touchView}
       onPress={() => {navigation.navigate("About"),this.props.navigation.dispatch(DrawerActions.closeDrawer())}}
     >
-      <Image
-        style={styles.iconsStyle}
-        resizeMode="contain"
-        source={Images.aboutUs}
-      />
+      <Entypo
+                  name={'info-with-circle'}
+                  size={15}
+                  color={Colors.LightBlack}
+                />
 
       <View style={styles.lineStyle} />
       <Text style={styles.myProfile}>About Us</Text>
@@ -298,7 +305,7 @@ return (
       style={[styles.touchView, { marginLeft: 3 }]}
       onPress={() =>Share.open(shareOptions)}
     >
-      <EvilIcons name="share-google" size={18} color={Colors.LightBlack} />
+      <Entypo name="share" size={18} color={Colors.LightBlack} />
       <View style={styles.lineStyle} />
       <Text style={styles.myProfile}>Share</Text>
     </TouchableOpacity>
@@ -307,11 +314,11 @@ return (
       style={styles.touchView}
       onPress={() => {navigation.navigate("Contact"),this.props.navigation.dispatch(DrawerActions.closeDrawer())}}
     >
-      <Image
-        style={styles.iconsStyle}
-        resizeMode="contain"
-        source={Images.contactUs}
-      />
+      <MaterialCommunityIcons
+                  name={'contacts'}
+                  size={15}
+                  color={Colors.LightBlack}
+                />
 
       <View style={styles.lineStyle} />
       <Text style={styles.myProfile}>Contact Us</Text>
@@ -321,22 +328,22 @@ return (
       style={styles.touchView}
       onPress={() => {navigation.navigate("Help"),this.props.navigation.dispatch(DrawerActions.closeDrawer())}}
     >
-      <Image
-        style={styles.iconsStyle}
-        resizeMode="contain"
-        source={Images.help}
-      />
+      <AntDesign
+                  name={'questioncircle'}
+                  size={15}
+                  color={Colors.LightBlack}
+                />
 
       <View style={styles.lineStyle} />
       <Text style={styles.myProfile}>Help</Text>
     </TouchableOpacity>
 
     <TouchableOpacity style={styles.touchView} onPress={()=>this.logout()}>
-      <Image
-        style={styles.iconsStyle}
-        resizeMode="contain"
-        source={Images.logout}
-      />
+    <MaterialCommunityIcons
+                  name={'logout'}
+                  size={15}
+                  color={Colors.LightBlack}
+                />
 
       <View style={styles.lineStyle} />
       <Text style={styles.myProfile}>Logout</Text>

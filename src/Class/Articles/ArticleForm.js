@@ -37,13 +37,17 @@ export default class Articles extends Component {
     if(state.isConnected){
       Get('wp-json/api/count-view/'+item.ID,token).then((view)=>{
         console.log(view)
+        
+          this.setState({change_language:view.data.language_status})
+       
       });
     Get('wp-json/wp/v2/posts/'+item.ID,token).then((posts)=>{
     console.log("posts",posts)
     var pos=posts;
     this.setState({loading:false})
     navigation.navigate("ArticleDetail", {
-      articleDetails: pos
+      articleDetails: pos,
+      change_language:this.state.change_language
     });
     })
   }
@@ -73,7 +77,7 @@ export default class Articles extends Component {
             data={data}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
-               <List item={item} onSelectArticle={this.selectedArticle.bind(this)} token={token}/>
+               <List item={item}  onSelectArticle={this.selectedArticle.bind(this)} token={token}/>
             )}
             keyExtractor={(_item, index) => index.toString()}
           />

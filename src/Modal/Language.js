@@ -45,6 +45,7 @@ const Language = ({
             loading={loading}
             color={Colors.Red}
             mode="contained"
+            style={{marginBottom:10}}
             onPress={()=>handleSubmit()}
           >
             <Text style={styles.convertButton}>Convert</Text>

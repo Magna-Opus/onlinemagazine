@@ -37,6 +37,7 @@ import {Get} from '../../Service/Get.js'
 import ImageModal from "../../Modal/ImageForm";
 import AsyncStorage from '@react-native-community/async-storage';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import Octicons from 'react-native-vector-icons/Octicons'
 
 export default class MyArticleDetail extends Component {
   constructor(props) {
@@ -44,6 +45,7 @@ export default class MyArticleDetail extends Component {
     this.state = {
       isAudio: false,
       details: null,
+      change_language:false,
       obj: {},
       selectedLang: "en-US",
       isPendingAllArticles:true,
@@ -72,6 +74,7 @@ export default class MyArticleDetail extends Component {
     if(state.isConnected){
       Get('wp-json/api/count-view/'+params.articleDetails,token).then((view)=>{
         console.log(view)
+        this.setState({change_language:view.data.language_status})
       });
     Get('wp-json/wp/v2/posts/'+params.articleDetails,token).then((mysinglearticles)=>{
         console.log("mysinglearticles",mysinglearticles)
@@ -159,7 +162,21 @@ export default class MyArticleDetail extends Component {
               Tts.getInitStatus().then(
                 response => {
                     Tts.setDefaultLanguage(selectedLang);
-                    Tts.speak(text);
+                    if(Platform.OS=='android')
+                  {
+                    if(text.length>3999)
+                    {
+                      let tempstring=text.match(/.{1,3999}/g);
+                      for(var j=0;j<tempstring.length;j++)
+                      Tts.speak(tempstring[j])
+                    }
+                    else
+                    {
+                    Tts.speak(text)
+                    }
+                    }
+                    else
+                    Tts.speak(text)
                 },
                 err => {
                   if (err.code === "no_engine") {
@@ -442,7 +459,7 @@ _renderItem2 ({item, index}) {
                   justifyContent: "flex-end"
                 }}
               >
-                <TouchableOpacity
+                {this.state.change_language?<TouchableOpacity
                   onPress={() => this.setState({ visible: true })}
                   style={styles.translateButtonStyle}
                 >
@@ -451,17 +468,22 @@ _renderItem2 ({item, index}) {
                     resizeMode="contain"
                     source={Images.translateIcon}
                   />
-                </TouchableOpacity>
+                </TouchableOpacity>:null}
 
                 <TouchableOpacity
                   style={styles.audioButtonStyle}
                   onPress={() => this.onAudio()}
                 >
-                  <Image
-                    style={{ width: 25, height: 25 }}
-                    resizeMode="contain"
-                    source={Images.audioIcon}
-                  />
+                  {!isAudio?<Octicons
+                  name={'unmute'}
+                  size={30}
+                  color={'#fff'}
+                />:<Octicons
+                name={'mute'}
+                size={30}
+                color={'#fff'}
+              />}
+                  
                 </TouchableOpacity>
               </View>
             </Surface>
