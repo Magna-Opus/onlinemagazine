@@ -31,6 +31,8 @@ import Carousel from 'react-native-snap-carousel';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import NetInfo from '@react-native-community/netinfo';
 const height = Dimensions.get('window').height;
+import {Get2} from '../../Service/Get.js'
+
 
 import Colors from "../../Global/Color.js";
 import Images from "../../Global/Images.js";
@@ -74,16 +76,25 @@ export default class ArticleDetail extends Component {
       console.log("Is connected?", state.isConnected);
     
     if(state.isConnected){
-      Get('wp-json/api/count-view/'+params.articleDetails,token).then((view)=>{
-        console.log(view)
-        this.setState({change_language:view.data.language_status})
-      });
-    Get('wp-json/wp/v2/posts/'+params.articleDetails,token).then((mysinglearticles)=>{
-      console.log("mysinglearticlesssss",mysinglearticles)
-    this.setState({details:mysinglearticles,isPendingAllArticles:false})
-
-    })
-    Get('wp-json/api/hotstory',token).then((getstory)=>{
+      if(token!=null)
+      {
+        Get('wp-json/api/count-view/'+params.articleDetails,token).then((view)=>{
+          console.log(view)
+          this.setState({change_language:view.data.language_status})
+        });
+      Get('wp-json/wp/v2/posts/'+params.articleDetails,token).then((mysinglearticles)=>{
+        console.log("mysinglearticlesssss",mysinglearticles)
+      this.setState({details:mysinglearticles,isPendingAllArticles:false})
+  
+      })
+      }
+      else
+      Get2('wp-json/wp/v2/posts/'+params.articleDetails,).then((mysinglearticles)=>{
+        console.log("mysinglearticle",mysinglearticles)
+      this.setState({details:mysinglearticles,isPendingAllArticles:false})
+  
+      })
+    Get('wp-json/api/hotstory').then((getstory)=>{
       console.log("getstory",getstory.data)
       this.setState({story:getstory.data})
       
@@ -257,21 +268,27 @@ export default class ArticleDetail extends Component {
       console.log("Is connected?", state.isConnected);
     
     if(state.isConnected){
-  let formData = new FormData();
-      formData.append("postid", this.state.details.id)
-      formData.append("action", 'efav_add')
-  UpdateData('wp-json/api/favourites',formData,token).then((markfavourite)=>{
-        console.log("markfavourite",markfavourite)
-        if(markfavourite.status==200)
-        {
-          displaySuccessToast(markfavourite.message)
-          this.props.navigation.navigate("Home")
-        }
-        else
-        {
-          displayErrorToast(markfavourite.message)
-        }
-  })
+      if(token!=null)
+      {
+        let formData = new FormData();
+        formData.append("postid", this.state.details.id)
+        formData.append("action", 'efav_add')
+    UpdateData('wp-json/api/favourites',formData,token).then((markfavourite)=>{
+          console.log("markfavourite",markfavourite)
+          if(markfavourite.status==200)
+          {
+            displaySuccessToast(markfavourite.message)
+            this.props.navigation.navigate("Home")
+          }
+          else
+          {
+            displayErrorToast(markfavourite.message)
+          }
+    })
+      }
+      else
+      displayErrorToast('Please register to mark favourite')
+  
 }
 
 else
@@ -373,10 +390,10 @@ _renderItem2 ({item, index}) {
           >
             <View style={styles.innerContainer}>
               <View
-                style={{ width: "100%", height: 50, justifyContent: "center" }}
+                style={{ width: "100%", height: 50, justifyContent: "center" ,}}
               >
                 <Button
-                  style={{ width: 30, height: 30 }}
+                  style={{ width: 30, height: 30}}
                   color="white"
                   onPress={() => navigation.goBack()}
                   icon={Images.backIcon}

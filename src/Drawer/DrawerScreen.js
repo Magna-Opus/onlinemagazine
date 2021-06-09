@@ -77,6 +77,7 @@ getLinks=async()=>
 }
 getData=async()=>{
   var token=await AsyncStorage.getItem('token');
+  console.log(token)
   Get('wp-json/wp/v2/users/me',token).then((getprofile)=>{
       console.log("getprofile",getprofile)
       this.setState({user:getprofile.profile})
@@ -190,6 +191,7 @@ return (
                 : require("../Image/defaultImage.png")
             }
           />
+          {console.log(this.state.userImage)}
           <Text style={styles.userName}>
             {this.state.myname ? this.state.myname  : "No Name"}
           </Text>
